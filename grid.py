@@ -15,7 +15,7 @@ class Grid:
 
     def get_neighbors(self, id):
         (x, y) = id
-        # Strict Clockwise Order: Up, Right, Bottom, Bottom-Right, Left, Top-Left
+        # Strict Clockwise Order: Up, Right, Bottom-Right, Bottom, Left, Top-Left
         # Note: Directions adjusted based on your updated instructions
         results = [
             (x, y - 1),  # Up

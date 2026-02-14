@@ -1,7 +1,7 @@
 import pygame
 import sys
 from grid import Grid
-from algorithms import bfs_search
+from algorithms import bfs_search, dfs_search
 
 # Colors
 WHITE = (255, 255, 255)
@@ -155,15 +155,19 @@ def main():
         grid.walls.add((10, y))
     
     # Define start and goal
-    start = (18, 2)
-    goal = (18, 12)
+    start = (1, 1)
+    goal = (1, 0)
     
     # Create visualizer
     visualizer = GridVisualizer(grid, cell_size=40)
     
     # Run BFS with visualization
-    print("Running BFS algorithm...")
-    path, visited = bfs_search(grid, start, goal, visualizer, delay=250)
+    # print("Running BFS algorithm...")
+    # path, visited = bfs_search(grid, start, goal, visualizer, delay=100)
+
+    # Run DFS with visualization
+    print("Running DFS algorithm...")
+    path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
     
     # Display final result
     print(f"Path found with {len(path)} steps")
