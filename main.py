@@ -1,7 +1,7 @@
 import pygame
 import sys, random
 from grid import Grid
-from algorithms import bfs_search, dfs_search, ucs_search
+from algorithms import bfs_search, dfs_search, ucs_search, dls_search
 
 # Colors
 WHITE = (255, 255, 255)
@@ -156,9 +156,9 @@ def main():
     
     # Define start and goal
     start = (2, 2)
-    goal = (2, 12)
+    goal = (18, 12)
 
-    choice = input("Enter algorithm (bfs, dfs, ucs): ").lower()
+    choice = input("Enter algorithm (bfs, dfs, ucs, dls): ").lower()
 
     # 3. Add random weights ONLY if UCS is chosen
     if choice == "ucs":
@@ -183,9 +183,13 @@ def main():
     # print("Running DFS algorithm...")
     # path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
 
-    print("Running UCS algorithm...")
-    path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
+    # print("Running UCS algorithm...")
+    # path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
     
+    print("Running DLS algorithm...")
+    depth_limit = 10  # You can adjust this as needed
+    path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+
     # Display final result
     print(f"Path found with {len(path)} steps")
     print(f"Visited {len(visited)} nodes")
