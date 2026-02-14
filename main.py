@@ -1,7 +1,7 @@
 import pygame
-import sys
+import sys, random
 from grid import Grid
-from algorithms import bfs_search, dfs_search
+from algorithms import bfs_search, dfs_search, ucs_search
 
 # Colors
 WHITE = (255, 255, 255)
@@ -155,8 +155,22 @@ def main():
         grid.walls.add((10, y))
     
     # Define start and goal
-    start = (1, 1)
-    goal = (1, 0)
+    start = (2, 2)
+    goal = (2, 12)
+
+    choice = input("Enter algorithm (bfs, dfs, ucs): ").lower()
+
+    # 3. Add random weights ONLY if UCS is chosen
+    if choice == "ucs":
+        print("Generating random weights for UCS...")
+        for x in range(grid.width):
+            for y in range(grid.height):
+                if (x, y) not in grid.walls:
+                    # Assign a random cost between 1 and 10
+                    grid.weights[(x, y)] = random.randint(1, 10)
+    else:
+        # For BFS/DFS, ensure all weights are 1 (default)
+        grid.weights = {}
     
     # Create visualizer
     visualizer = GridVisualizer(grid, cell_size=40)
@@ -165,9 +179,12 @@ def main():
     # print("Running BFS algorithm...")
     # path, visited = bfs_search(grid, start, goal, visualizer, delay=100)
 
-    # Run DFS with visualization
-    print("Running DFS algorithm...")
-    path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
+    # # Run DFS with visualization
+    # print("Running DFS algorithm...")
+    # path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
+
+    print("Running UCS algorithm...")
+    path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
     
     # Display final result
     print(f"Path found with {len(path)} steps")

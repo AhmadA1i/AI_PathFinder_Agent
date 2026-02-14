@@ -5,6 +5,11 @@ class Grid:
         self.width = width
         self.height = height
         self.walls = set()
+        self.weights = {}
+
+    def cost(self, to_node):
+        # If no random weight is set, default cost is 1
+        return self.weights.get(to_node, 1)
 
     def in_bounds(self, id):
         (x, y) = id
