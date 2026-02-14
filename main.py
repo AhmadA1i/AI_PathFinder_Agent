@@ -159,51 +159,57 @@ def main():
     goal = (19, 14)
 
     choice = input("Enter algorithm (bfs, dfs, ucs, dls, iddfs, bidirectional): ").lower()
-
-    # 3. Add random weights ONLY if UCS is chosen
+    
+    # Validate choice
+    valid_choices = ['bfs', 'dfs', 'ucs', 'dls', 'iddfs', 'bidirectional']
+    if choice not in valid_choices:
+        print("Invalid choice! Please enter one of: bfs, dfs, ucs, dls, iddfs, bidirectional")
+        return
+    
+    # Add random weights ONLY if UCS is chosen
     if choice == "ucs":
         print("Generating random weights for UCS...")
         for x in range(grid.width):
             for y in range(grid.height):
                 if (x, y) not in grid.walls:
-                    # Assign a random cost between 1 and 10
                     grid.weights[(x, y)] = random.randint(1, 10)
     else:
-        # For BFS/DFS, ensure all weights are 1 (default)
+        # For other algorithms, ensure all weights are 1 (default)
         grid.weights = {}
     
     # Create visualizer
     visualizer = GridVisualizer(grid, cell_size=40)
     
-    # Run BFS with visualization
-    # print("Running BFS algorithm...")
-    # path, visited = bfs_search(grid, start, goal, visualizer, delay=100)
-
-    # # Run DFS with visualization
-    # print("Running DFS algorithm...")
-    # path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
-
-    # print("Running UCS algorithm...")
-    # path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
+    # Run selected algorithm
+    print(f"Running {choice.upper()} algorithm...")
     
-    # print("Running DLS algorithm...")
-    # depth_limit = 10  # You can adjust this as needed
-    # path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
-
-    # print("Running Iterative Deepening DFS algorithm...")
-    # for depth_limit in range(100): # Try depth 0, 1, 2...
-    #     path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
-    #     if path: # If path is not empty, we found it!
-    #         print(f"Path found at depth limit {depth_limit}")
-    #         break
-
-    print("Running Bidirectional Search algorithm...")
-    path, visited = bidirectional_search(grid, start, goal, visualizer, delay=100)
-
+    if choice == "bfs":
+        path, visited = bfs_search(grid, start, goal, visualizer, delay=100)
+    elif choice == "dfs":
+        path, visited = dfs_search(grid, start, goal, visualizer, delay=100)
+    elif choice == "ucs":
+        path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
+    elif choice == "dls":
+        depth_limit = int(input("Enter depth limit (default 10): ") or "10")
+        path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+    elif choice == "iddfs":
+        path, visited = dls_search(grid, start, goal, 0, visualizer, delay=50)
+        visited_total = set(visited)
+        for depth_limit in range(1, grid.width + grid.height):
+            path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=50)
+            visited_total.update(visited)
+            if path:
+                print(f"Path found at depth limit {depth_limit}")
+                visited = visited_total
+                break
+    elif choice == "bidirectional":
+        path, visited = bidirectional_search(grid, start, goal, visualizer, delay=100)
+    
     # Display final result
     print(f"Path found with {len(path)} steps")
     print(f"Visited {len(visited)} nodes")
-    print(f"Path: {path}")
+    if path:
+        print(f"Path: {path[:5]}{'...' if len(path) > 5 else ''}")
     
     # Show final path
     visualizer.run(path=path, start=start, goal=goal, visited=visited)
