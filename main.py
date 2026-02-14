@@ -1,7 +1,7 @@
 import pygame
 import sys, random
 from grid import Grid
-from algorithms import bfs_search, dfs_search, ucs_search, dls_search
+from algorithms import bfs_search, dfs_search, ucs_search, dls_search, bidirectional_search
 
 # Colors
 WHITE = (255, 255, 255)
@@ -156,9 +156,9 @@ def main():
     
     # Define start and goal
     start = (2, 2)
-    goal = (2, 4)
+    goal = (19, 14)
 
-    choice = input("Enter algorithm (bfs, dfs, ucs, dls, iddfs): ").lower()
+    choice = input("Enter algorithm (bfs, dfs, ucs, dls, iddfs, bidirectional): ").lower()
 
     # 3. Add random weights ONLY if UCS is chosen
     if choice == "ucs":
@@ -190,12 +190,15 @@ def main():
     # depth_limit = 10  # You can adjust this as needed
     # path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
 
-    print("Running Iterative Deepening DFS algorithm...")
-    for depth_limit in range(100): # Try depth 0, 1, 2...
-        path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
-        if path: # If path is not empty, we found it!
-            print(f"Path found at depth limit {depth_limit}")
-            break
+    # print("Running Iterative Deepening DFS algorithm...")
+    # for depth_limit in range(100): # Try depth 0, 1, 2...
+    #     path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+    #     if path: # If path is not empty, we found it!
+    #         print(f"Path found at depth limit {depth_limit}")
+    #         break
+
+    print("Running Bidirectional Search algorithm...")
+    path, visited = bidirectional_search(grid, start, goal, visualizer, delay=100)
 
     # Display final result
     print(f"Path found with {len(path)} steps")
