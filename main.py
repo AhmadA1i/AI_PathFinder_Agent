@@ -156,9 +156,9 @@ def main():
     
     # Define start and goal
     start = (2, 2)
-    goal = (18, 12)
+    goal = (2, 4)
 
-    choice = input("Enter algorithm (bfs, dfs, ucs, dls): ").lower()
+    choice = input("Enter algorithm (bfs, dfs, ucs, dls, iddfs): ").lower()
 
     # 3. Add random weights ONLY if UCS is chosen
     if choice == "ucs":
@@ -186,9 +186,16 @@ def main():
     # print("Running UCS algorithm...")
     # path, visited = ucs_search(grid, start, goal, visualizer, delay=100)
     
-    print("Running DLS algorithm...")
-    depth_limit = 10  # You can adjust this as needed
-    path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+    # print("Running DLS algorithm...")
+    # depth_limit = 10  # You can adjust this as needed
+    # path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+
+    print("Running Iterative Deepening DFS algorithm...")
+    for depth_limit in range(100): # Try depth 0, 1, 2...
+        path, visited = dls_search(grid, start, goal, depth_limit, visualizer, delay=100)
+        if path: # If path is not empty, we found it!
+            print(f"Path found at depth limit {depth_limit}")
+            break
 
     # Display final result
     print(f"Path found with {len(path)} steps")
