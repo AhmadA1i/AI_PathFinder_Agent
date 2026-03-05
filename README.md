@@ -39,13 +39,15 @@ pip install -r requirements.txt
 python main.py
 ```
 
-When prompted, choose an algorithm:
-```
-bfs, dfs, ucs, dls, iddfs, bidirectional
-```
+At startup, a Pygame setup window opens where you can:
+- Enter grid width and height
+- Select the algorithm (BFS, DFS, UCS, DLS, IDDFS, Bidirectional)
+- Enter depth limit (used for DLS)
+- Click **Start** to run
 
 ## Controls
-- Close the window or press `Esc` to exit
+- Setup window: click fields to type values, click algorithm buttons, click **Start**
+- Visualization window: resize freely, press `Esc` or close window to exit
 
 ## Visualization Legend
 - Green: Start
